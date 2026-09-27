@@ -1,0 +1,36 @@
+import { get, post, del } from '@/utils/request'
+
+/**
+ * $comment 数据对象（关联表，字段类型与数据库表 $tableName 一一对照）
+ * bigint → string（防精度丢失）、decimal → string、tinyint(1) → boolean、int → number
+ */
+export const ${className}Fields = [
+#foreach($column in $columns)
+  { name: '$column.fieldName', label: '$column.comment', dbType: '$column.fullType', jsType: '$column.tsType' },
+#end
+]
+
+/** 查询$comment列表 */
+export function list${className}(params) {
+  return get(`/$module/$businessName/list`, { params })
+}
+
+/** 按复合主键查询详情 */
+export function get${className}ByKey(key) {
+  return post(`/$module/$businessName/key`, key)
+}
+
+/** 新增关联 */
+export function add${className}(data) {
+  return post(`/$module/$businessName`, data)
+}
+
+/** 按复合主键删除关联 */
+export function delete${className}ByKey(key) {
+  return del(`/$module/$businessName/key`, { data: key })
+}
+
+/** 按条件批量删除关联（如清空某用户全部角色） */
+export function delete${className}ByCondition(condition) {
+  return del(`/$module/$businessName/condition`, { data: condition })
+}

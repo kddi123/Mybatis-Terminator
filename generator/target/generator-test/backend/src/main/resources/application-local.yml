@@ -1,0 +1,18 @@
+# 本地环境：与 dev 相同的本地数据库，但日志最详细（SQL 全量输出）
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hr_management?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 1
+      timeout: 5s
+
+logging:
+  level:
+    com.hr: trace
+    org.apache.ibatis: trace

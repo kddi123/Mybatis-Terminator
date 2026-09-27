@@ -1,0 +1,44 @@
+<idea-plugin>
+    <id>com.hr.mybatis-terminator</id>
+    <name>Mybatis Terminator</name>
+    <vendor url="https://github.com/kddi123/Mybatis-Terminator.git">Google王</vendor>
+    <category>Database</category>
+
+    <description><![CDATA[
+        <p>Generate MyBatis backend code and Vue 3 pages from a MySQL schema.</p>
+        <ul>
+            <li>Reads table and column metadata, including types, comments and primary keys.</li>
+            <li>Generates Entity, Mapper, Service, ServiceImpl, Controller and Mapper XML.</li>
+            <li>Generates Vue 3 API modules and list pages in TypeScript or JavaScript.</li>
+            <li>Scaffolds a missing Spring Boot backend or Vite frontend instead of overwriting existing files.</li>
+        </ul>
+        <p>Open the Mybatis Terminator tool window, connect to the database, select tables, preview, then generate.</p>
+        <br/>
+        <p>从 MySQL 表结构生成 MyBatis 后端代码和 Vue 3 前端页面。</p>
+        <ul>
+            <li>读取表与字段的元数据，包括类型、注释和主键。</li>
+            <li>生成 Entity、Mapper、Service、ServiceImpl、Controller 和 Mapper XML。</li>
+            <li>生成 Vue 3 的 API 模块和列表页面，可选 TypeScript 或 JavaScript。</li>
+            <li>目标工程缺少 Spring Boot 后端或 Vite 前端骨架时自动补齐，不覆盖已有文件。</li>
+        </ul>
+        <p>打开右侧「Mybatis Terminator」工具窗口，连接数据库、勾选表、预览后即可生成。</p>
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <p>1.0.6</p>
+        <ul>
+            <li>First Marketplace release.</li>
+            <li>MySQL driver is registered explicitly so it loads inside the IDE.</li>
+            <li>Frontend templates render without bundling a second Velocity runtime.</li>
+        </ul>
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Mybatis Terminator"
+                    anchor="right"
+                    factoryClass="com.hr.generator.plugin.GeneratorToolWindowFactory"
+                    icon="/icons/pluginIcon.svg"/>
+    </extensions>
+</idea-plugin>

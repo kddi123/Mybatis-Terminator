@@ -1,0 +1,15 @@
+<idea-plugin>
+  <idea-version since-build="243" until-build="253.*" />
+  <version>1.0.0</version>
+  <id>com.hr.mybatis-terminator</id>
+  <name>Mybatis Terminator</name>
+  <vendor>hr</vendor>
+  <description><![CDATA[从 MySQL 表结构生成 MyBatis-Plus 风格的后端代码（Entity / Mapper / Service / Controller / XML）
+        以及 Vue3 前端页面（TypeScript 或 JavaScript）。
+        打开右侧工具窗口「Mybatis Terminator」，连接数据库、勾选表后即可预览或生成。]]></description>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.java</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <toolWindow id="Mybatis Terminator" anchor="right" factoryClass="com.hr.generator.plugin.GeneratorToolWindowFactory" icon="AllIcons.Toolwindows.ToolWindowRun" />
+  </extensions>
+</idea-plugin>

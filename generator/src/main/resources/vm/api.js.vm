@@ -1,0 +1,39 @@
+import { get, post, put, del } from '@/utils/request'
+
+/** $comment（字段类型与数据库表 $tableName 一一对照） */
+#foreach($column in $columns)
+#end
+/**
+ * $comment 数据对象（字段类型与数据库表 $tableName 一一对照）
+ * bigint → string（防精度丢失）、decimal → string、tinyint(1) → boolean、int → number
+ */
+export const ${className}Fields = [
+#foreach($column in $columns)
+  { name: '$column.fieldName', label: '$column.comment', dbType: '$column.fullType', jsType: '$column.tsType' },
+#end
+]
+
+/** 查询$comment列表 */
+export function list${className}(params) {
+  return get(`/$module/$businessName/list`, { params })
+}
+
+/** 查询$comment详情 */
+export function get${className}(id) {
+  return get(`/$module/$businessName/` + id)
+}
+
+/** 新增$comment */
+export function add${className}(data) {
+  return post(`/$module/$businessName`, data)
+}
+
+/** 修改$comment */
+export function update${className}(data) {
+  return put(`/$module/$businessName`, data)
+}
+
+/** 删除$comment */
+export function delete${className}(ids) {
+  return del(`/$module/$businessName/` + ids.join(','))
+}

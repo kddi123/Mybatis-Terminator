@@ -1,0 +1,34 @@
+import { get, post, put, del } from '@/utils/request'
+
+/** $comment（字段类型与数据库表 $tableName 一一对照） */
+export interface $className {
+#foreach($column in $columns)
+  /** $column.comment（$column.fullType → $column.tsType） */
+  $column.fieldName?: $column.tsType
+#end
+}
+
+/** 查询$comment列表 */
+export function list${className}(params: Partial<${className}>) {
+  return get<${className}[]>(`/$module/$businessName/list`, { params })
+}
+
+/** 查询$comment详情 */
+export function get${className}(id: string) {
+  return get<${className}>(`/$module/$businessName/` + id)
+}
+
+/** 新增$comment */
+export function add${className}(data: Partial<${className}>) {
+  return post<void>(`/$module/$businessName`, data)
+}
+
+/** 修改$comment */
+export function update${className}(data: Partial<${className}>) {
+  return put<void>(`/$module/$businessName`, data)
+}
+
+/** 删除$comment */
+export function delete${className}(ids: string[]) {
+  return del<void>(`/$module/$businessName/` + ids.join(','))
+}

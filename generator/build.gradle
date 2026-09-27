@@ -1,0 +1,79 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij.platform' version '2.16.0'
+}
+
+java {
+    // IDEA 2026.2 的平台类是 Java 25（class 版本 69），必须用 JDK 25 编译
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
+}
+
+dependencies {
+    intellijPlatform {
+        intellijIdea '2026.2.3'
+    }
+
+    implementation 'org.freemarker:freemarker:2.3.34'
+    implementation 'com.mysql:mysql-connector-j:9.7.0'
+}
+
+def pluginDescriptor = file('src/main/resources/META-INF/plugin.xml').text
+
+intellijPlatform {
+    pluginConfiguration {
+        name = 'Mybatis Terminator'
+        version = project.version
+        description = (pluginDescriptor =~ /(?s)<description><!\[CDATA\[(.*?)]]><\/description>/)[0][1].trim()
+        changeNotes = (pluginDescriptor =~ /(?s)<change-notes><!\[CDATA\[(.*?)]]><\/change-notes>/)[0][1].trim()
+        ideaVersion {
+            // 插件类按 Java 25 编译，只能运行在 IDEA 2026.2（build 262）及以上
+            sinceBuild = '262'
+            untilBuild = '262.*'
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    // 原 JavaFX 桌面版入口不参与插件编译（插件用 Swing 工具窗口）
+    exclude 'com/hr/generator/GeneratorApplication.java'
+    exclude 'com/hr/generator/GeneratorLauncher.java'
+    exclude 'com/hr/generator/IndexController.java'
+}
+
+// 前端脚手架自带的 node_modules 只是本地依赖，不能打进插件
+tasks.named('processResources') {
+    exclude 'scaffold/frontend/node_modules/**'
+}
+
+// 官方 buildPlugin 产物才是 IDEA 认的格式：
+// <插件名>/lib/<插件>.jar，而 plugin.xml 必须位于该 jar 内的 META-INF/plugin.xml。
+// 这个任务只是把官方 zip 复制成固定文件名，方便查找。
+tasks.register('packageIdeaPlugin', Copy) {
+    group = 'intellij platform'
+    description = '复制 buildPlugin 产物为 mybatis-terminator-<version>.zip'
+    dependsOn tasks.named('buildPlugin')
+    from(tasks.named('buildPlugin', Zip).flatMap { it.archiveFile })
+    into layout.buildDirectory.dir('distributions')
+    rename { "mybatis-terminator-${project.version}.zip" }
+}
+
+// 上传到 JetBrains Marketplace：
+//   ./gradlew :generator:publishPlugin -PmarketplaceToken=你的token
+// token 在 https://plugins.jetbrains.com/ 的 My Tokens 页面生成，不要写入文件或提交。
+if (project.hasProperty('marketplaceToken')) {
+    publishPlugin {
+        token = project.property('marketplaceToken')
+    }
+}

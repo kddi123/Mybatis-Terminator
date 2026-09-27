@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hr.hr.mapper.HrEmployeeMapper">
+
+    <resultMap id="BaseResultMap" type="com.hr.hr.entity.HrEmployee">
+        <result property="id" column="id"/>
+        <result property="employeeNo" column="employee_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="idCard" column="id_card"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="birthday" column="birthday"/>
+        <result property="avatar" column="avatar"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="positionId" column="position_id"/>
+        <result property="postId" column="post_id"/>
+        <result property="entryDate" column="entry_date"/>
+        <result property="leaveDate" column="leave_date"/>
+        <result property="employmentStatus" column="employment_status"/>
+        <result property="employmentType" column="employment_type"/>
+        <result property="address" column="address"/>
+        <result property="emergencyContact" column="emergency_contact"/>
+        <result property="emergencyPhone" column="emergency_phone"/>
+        <result property="remark" column="remark"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+id,
+employee_no,
+user_id,
+name,
+gender,
+id_card,
+phone,
+email,
+birthday,
+avatar,
+dept_id,
+position_id,
+post_id,
+entry_date,
+leave_date,
+employment_status,
+employment_type,
+address,
+emergency_contact,
+emergency_phone,
+remark,
+created_at,
+updated_at,
+created_by,
+updated_by,
+deleted
+    </sql>
+
+    <select id="selectList" parameterType="com.hr.hr.entity.HrEmployee" resultMap="BaseResultMap">
+        select <include refid="BaseColumns"/> from hr_employee
+        <where>
+            deleted = 0
+            <if test="id != null">
+                and id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="employeeNo != null and employeeNo != ''">
+                and employee_no = #{employeeNo,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="gender != null and gender != ''">
+                and gender = #{gender,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday,jdbcType=DATE}
+            </if>
+            <if test="avatar != null and avatar != ''">
+                and avatar = #{avatar,jdbcType=VARCHAR}
+            </if>
+            <if test="deptId != null">
+                and dept_id = #{deptId,jdbcType=BIGINT}
+            </if>
+            <if test="positionId != null">
+                and position_id = #{positionId,jdbcType=BIGINT}
+            </if>
+            <if test="postId != null">
+                and post_id = #{postId,jdbcType=BIGINT}
+            </if>
+            <if test="entryDate != null">
+                and entry_date = #{entryDate,jdbcType=DATE}
+            </if>
+            <if test="leaveDate != null">
+                and leave_date = #{leaveDate,jdbcType=DATE}
+            </if>
+            <if test="employmentStatus != null and employmentStatus != ''">
+                and employment_status = #{employmentStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="employmentType != null and employmentType != ''">
+                and employment_type = #{employmentType,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="emergencyContact != null and emergencyContact != ''">
+                and emergency_contact = #{emergencyContact,jdbcType=VARCHAR}
+            </if>
+            <if test="emergencyPhone != null and emergencyPhone != ''">
+                and emergency_phone = #{emergencyPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" parameterType="Long" resultMap="BaseResultMap">
+        select <include refid="BaseColumns"/> from hr_employee
+        where id = #{id,jdbcType=BIGINT} and deleted = 0
+    </select>
+
+    <insert id="insert" parameterType="com.hr.hr.entity.HrEmployee" useGeneratedKeys="true" keyProperty="id">
+        insert into hr_employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeNo != null">employee_no,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="name != null">name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="positionId != null">position_id,</if>
+            <if test="postId != null">post_id,</if>
+            <if test="entryDate != null">entry_date,</if>
+            <if test="leaveDate != null">leave_date,</if>
+            <if test="employmentStatus != null">employment_status,</if>
+            <if test="employmentType != null">employment_type,</if>
+            <if test="address != null">address,</if>
+            <if test="emergencyContact != null">emergency_contact,</if>
+            <if test="emergencyPhone != null">emergency_phone,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeNo != null">#{employeeNo,jdbcType=VARCHAR},</if>
+            <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="gender != null">#{gender,jdbcType=VARCHAR},</if>
+            <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>
+            <if test="email != null">#{email,jdbcType=VARCHAR},</if>
+            <if test="birthday != null">#{birthday,jdbcType=DATE},</if>
+            <if test="avatar != null">#{avatar,jdbcType=VARCHAR},</if>
+            <if test="deptId != null">#{deptId,jdbcType=BIGINT},</if>
+            <if test="positionId != null">#{positionId,jdbcType=BIGINT},</if>
+            <if test="postId != null">#{postId,jdbcType=BIGINT},</if>
+            <if test="entryDate != null">#{entryDate,jdbcType=DATE},</if>
+            <if test="leaveDate != null">#{leaveDate,jdbcType=DATE},</if>
+            <if test="employmentStatus != null">#{employmentStatus,jdbcType=VARCHAR},</if>
+            <if test="employmentType != null">#{employmentType,jdbcType=VARCHAR},</if>
+            <if test="address != null">#{address,jdbcType=VARCHAR},</if>
+            <if test="emergencyContact != null">#{emergencyContact,jdbcType=VARCHAR},</if>
+            <if test="emergencyPhone != null">#{emergencyPhone,jdbcType=VARCHAR},</if>
+            <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.hr.hr.entity.HrEmployee">
+        update hr_employee
+        <set>
+            <if test="employeeNo != null">employee_no = #{employeeNo,jdbcType=VARCHAR},</if>
+            <if test="userId != null">user_id = #{userId,jdbcType=BIGINT},</if>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="gender != null">gender = #{gender,jdbcType=VARCHAR},</if>
+            <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>
+            <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
+            <if test="birthday != null">birthday = #{birthday,jdbcType=DATE},</if>
+            <if test="avatar != null">avatar = #{avatar,jdbcType=VARCHAR},</if>
+            <if test="deptId != null">dept_id = #{deptId,jdbcType=BIGINT},</if>
+            <if test="positionId != null">position_id = #{positionId,jdbcType=BIGINT},</if>
+            <if test="postId != null">post_id = #{postId,jdbcType=BIGINT},</if>
+            <if test="entryDate != null">entry_date = #{entryDate,jdbcType=DATE},</if>
+            <if test="leaveDate != null">leave_date = #{leaveDate,jdbcType=DATE},</if>
+            <if test="employmentStatus != null">employment_status = #{employmentStatus,jdbcType=VARCHAR},</if>
+            <if test="employmentType != null">employment_type = #{employmentType,jdbcType=VARCHAR},</if>
+            <if test="address != null">address = #{address,jdbcType=VARCHAR},</if>
+            <if test="emergencyContact != null">emergency_contact = #{emergencyContact,jdbcType=VARCHAR},</if>
+            <if test="emergencyPhone != null">emergency_phone = #{emergencyPhone,jdbcType=VARCHAR},</if>
+            <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>
+            updated_at = now()
+        </set>
+        where id = #{id,jdbcType=BIGINT} and deleted = 0
+    </update>
+
+    <update id="deleteByIds">
+        update hr_employee set deleted = 1
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

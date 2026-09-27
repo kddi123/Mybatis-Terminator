@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    # 默认激活 dev；启动时可通过 --spring.profiles.active=local/pro 切换
+    active: dev
+  application:
+    name: hr-backend
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: ${basePackage}.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+logging:
+  config: classpath:logback-spring.xml

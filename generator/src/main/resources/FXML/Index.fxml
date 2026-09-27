@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hr.generator.IndexController" prefWidth="1100" prefHeight="700">
+  <fx:define>
+    <ToggleGroup fx:id="langGroup"/>
+  </fx:define>
+  <top>
+    <VBox spacing="8">
+      <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+      <Label text="HR 人事管理系统 - 代码生成器（模板手动运行）" style="-fx-font-size:16px; -fx-font-weight:bold;"/>
+      <GridPane hgap="8" vgap="8">
+        <Label text="主机:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="hostField" text="localhost" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="端口:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <TextField fx:id="portField" text="3306" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+        <Label text="数据库:" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+        <TextField fx:id="databaseField" text="hr_management" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+        <Label text="用户:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="userField" text="root" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="密码:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <PasswordField fx:id="passwordField" text="root" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+        <Button fx:id="connectButton" text="测试连接并读取表" onAction="#onConnect"
+                GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.columnSpan="2"/>
+        <Label text="基础包名:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="basePackageField" text="com.hr" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="后端目录:" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <TextField fx:id="backendPathField" text="../backend" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+        <Button fx:id="backendChooseButton" text="选择..." onAction="#onChooseBackend"
+                GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+        <Label text="前端目录:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField fx:id="frontendPathField" text="../frontend" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Button fx:id="frontendChooseButton" text="选择..." onAction="#onChooseFrontend"
+                GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+        <CheckBox fx:id="overwriteCheck" text="覆盖已存在文件" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+        <Label text="前端语言:" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+        <RadioButton fx:id="tsRadio" text="TypeScript" toggleGroup="$langGroup" selected="true"
+                     GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+      </GridPane>
+      <HBox spacing="16">
+        <RadioButton fx:id="jsRadio" text="JavaScript（生成 .js 前端工程）" toggleGroup="$langGroup"/>
+      </HBox>
+      <Separator/>
+    </VBox>
+  </top>
+  <left>
+    <VBox spacing="4">
+      <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+      <Label text="数据库表（点击勾选，可多选）:"/>
+      <HBox spacing="8">
+        <Button fx:id="selectAllButton" text="全选" onAction="#onSelectAll"/>
+        <Button fx:id="clearAllButton" text="清空选择" onAction="#onClearAll"/>
+      </HBox>
+      <ListView fx:id="tableList" prefWidth="260" prefHeight="400"/>
+    </VBox>
+  </left>
+  <center>
+    <VBox spacing="4">
+      <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+      <Label fx:id="previewLabel" text="已勾选表的字段类型对照（数据库类型 → Java/TS 类型）:"/>
+      <TextArea fx:id="columnArea" prefHeight="260" wrapText="true" editable="false"/>
+      <HBox spacing="8">
+        <Button fx:id="previewButton" text="预览（不写文件）" onAction="#onPreview"/>
+        <Button fx:id="generateButton" text="开始生成（手动确认）" onAction="#onGenerate" style="-fx-font-weight:bold;"/>
+      </HBox>
+      <Label text="运行日志:"/>
+      <TextArea fx:id="logArea" prefHeight="180" wrapText="true" editable="false"/>
+    </VBox>
+  </center>
+</BorderPane>
